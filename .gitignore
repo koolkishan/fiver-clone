@@ -13,6 +13,8 @@ server/node_modules
 /client/.next/
 /out/
 
+client/yarn.lock
+
 # production
 /build
 

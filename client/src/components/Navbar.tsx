@@ -2,16 +2,36 @@ import React, { useEffect, useState } from "react";
 import FiverrLogo from "./FiverrLogo";
 import Link from "next/link";
 import { IoSearchOutline } from "react-icons/io5";
+import { useAppDispatch, useAppSelector } from "@/app/hooks";
+import { toggleLoginModal, toggleSignupModal } from "@/app/auth/AuthSlice";
 
 function Navbar() {
   const [navFixed, setNavFixed] = useState(false);
+  const { showLoginModal, showSignupModal } = useAppSelector(
+    ({ auth }) => auth
+  );
+  const dispatch = useAppDispatch();
+  const handleLogin = () => {
+    if (showSignupModal) {
+      dispatch(toggleSignupModal(false));
+    }
+    dispatch(toggleLoginModal(true));
+  };
+
+  const handleSignup = () => {
+    if (showLoginModal) {
+      dispatch(toggleLoginModal(false));
+    }
+    dispatch(toggleSignupModal(true));
+  };
+
   const links = [
     { linkName: "Fiverr Business", handler: "#", type: "link" },
     { linkName: "Explore", handler: "#", type: "link" },
     { linkName: "English", handler: "#", type: "link" },
     { linkName: "Become a Seller", handler: "#", type: "link" },
-    { linkName: "Sign in", handler: "#", type: "link" },
-    { linkName: "Join", handler: "#", type: "button" },
+    { linkName: "Sign in", handler: handleSignup, type: "button" },
+    { linkName: "Join", handler: handleLogin, type: "button2" },
   ];
   useEffect(() => {
     const positionNavbar = () => {
@@ -20,6 +40,7 @@ function Navbar() {
     window.addEventListener("scroll", positionNavbar);
     return () => window.removeEventListener("scroll", positionNavbar);
   }, []);
+
   return (
     <nav
       className={`w-full px-24 flex justify-between items-center py-6  top-0 z-30 transition-all duration-300 ${
@@ -48,8 +69,15 @@ function Navbar() {
                 navFixed ? "text-black" : "text-white"
               } font-medium`}
             >
-              {type === "link" && <Link href={handler}>{linkName}</Link>}
-              {type === "button" && <button>{linkName}</button>}
+              {type === "link" && (
+                <Link href={handler as string}>{linkName}</Link>
+              )}
+              {type === "button" && (
+                <button onClick={handler as () => {}}>{linkName}</button>
+              )}
+              {type === "button2" && (
+                <button onClick={handler as () => {}}>{linkName}</button>
+              )}
             </li>
           );
         })}

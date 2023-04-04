@@ -1,20 +1,51 @@
+import { closeAuthModal } from "@/app/auth/AuthSlice";
+import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import React, { useEffect } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { MdFacebook } from "react-icons/md";
-function AuthWrapper() {
-  const visible = true;
+function AuthWrapper({ type }: { type: "signup" | "login" }) {
+  const dispatch = useAppDispatch();
+  const { showLoginModal, showSignupModal } = useAppSelector(
+    ({ auth }) => auth
+  );
+
   useEffect(() => {
     const html = document.querySelector("html");
+    const authModal = document.querySelector("#auth-modal");
+    const blurDiv = document.querySelector("#blur-div");
     html!.style.overflowY = "hidden";
-  }, []);
+    const handleBlurDivClick = () => {
+      dispatch(closeAuthModal());
+    };
+    const handleAuthModalClick = (e: Event) => {
+      e.stopPropagation();
+    };
+    authModal?.addEventListener("click", handleAuthModalClick);
+    blurDiv?.addEventListener("click", handleBlurDivClick);
+
+    return () => {
+      const html = document.querySelector("html");
+      html!.style.overflowY = "initial";
+      blurDiv?.removeEventListener("click", handleBlurDivClick);
+      authModal?.removeEventListener("click", handleAuthModalClick);
+    };
+  }, [dispatch, showLoginModal, showSignupModal]);
+
   return (
     <div className="fixed top-0 z-[100]">
-      <div className="h-[100vh] w-[100vw] backdrop-blur-md fixed top-0"></div>
+      <div
+        className="h-[100vh] w-[100vw] backdrop-blur-md fixed top-0"
+        id="blur-div"
+      ></div>
       <div className="h-[100vh] w-[100vw] flex flex-col justify-center items-center">
-        <div className="fixed z-[101] h-max w-max bg-white flex flex-col justify-center items-center">
+        <div
+          className="fixed z-[101] h-max w-max bg-white flex flex-col justify-center items-center"
+          id="auth-modal"
+        >
           <div className="flex flex-col justify-center items-center p-8 gap-7">
             <h3 className="text-2xl font-semibold text-slate-700">
-              Sign in to Fiverr
+              {type === "login" ? "Login" : "Sign"}
+              in to Fiverr
             </h3>
             <div className="flex flex-col gap-5">
               <button className="text-white bg-blue-500 p-3 font-semibold w-80 flex items-center justify-center relative">
