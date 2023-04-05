@@ -17,7 +17,9 @@ client/yarn.lock
 
 # production
 /build
+server/dist
 
+yarn.lock
 # misc
 .DS_Store
 *.pem
