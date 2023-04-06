@@ -60,7 +60,7 @@ function Navbar() {
           <IoSearchOutline className="fill-white text-white h-6 w-6" />
         </button>
       </div>
-      <ul className="flex gap-10">
+      <ul className="flex gap-10 items-center">
         {links.map(({ linkName, handler, type }) => {
           return (
             <li
@@ -76,7 +76,16 @@ function Navbar() {
                 <button onClick={handler as () => {}}>{linkName}</button>
               )}
               {type === "button2" && (
-                <button onClick={handler as () => {}}>{linkName}</button>
+                <button
+                  onClick={handler as () => {}}
+                  className={`border   text-md font-semibold py-1 px-3 rounded-sm ${
+                    navFixed
+                      ? "border-[#1DBF73] text-[#1DBF73]"
+                      : "border-white text-white"
+                  } hover:bg-[#1DBF73] hover:text-white hover:border-[#1DBF73] transition-all duration-500`}
+                >
+                  {linkName}
+                </button>
               )}
             </li>
           );
