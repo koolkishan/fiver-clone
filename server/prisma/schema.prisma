@@ -13,6 +13,6 @@ datasource db {
 model User {
   id Int        @id @default(autoincrement())
   email String  @unique
-  password String
-  isSocialLogin Boolean?
+  password String 
+  isSocialLogin Boolean? @default(false)
 }

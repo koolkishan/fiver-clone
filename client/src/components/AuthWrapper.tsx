@@ -1,13 +1,64 @@
 import { closeAuthModal } from "@/app/auth/AuthSlice";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
-import React, { useEffect } from "react";
+import { useCookies } from "react-cookie";
+import { LOGIN_ROUTE, SIGNUP_ROUTE } from "@/utils/constants";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { MdFacebook } from "react-icons/md";
+import { useRouter } from "next/router";
+
 function AuthWrapper({ type }: { type: "signup" | "login" }) {
+  const [cookies] = useCookies();
   const dispatch = useAppDispatch();
+  const router = useRouter();
+
   const { showLoginModal, showSignupModal } = useAppSelector(
     ({ auth }) => auth
   );
+  const [values, setValues] = useState({ email: "", password: "" });
+
+  useEffect(() => {
+    if (cookies.jwt) {
+      dispatch(closeAuthModal());
+      router.push("/dashboard");
+    }
+  }, [cookies, dispatch, router]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
+  };
+
+  const handleClick = async () => {
+    try {
+      const { email, password } = values;
+      if (email && password) {
+        await axios.post(
+          type === "login" ? LOGIN_ROUTE : SIGNUP_ROUTE,
+          { email, password },
+          { withCredentials: true }
+        );
+        dispatch(closeAuthModal());
+        router.push("/dashboard");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleGoogleLogin = () => {
+    try {
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleFacebookLogin = () => {
+    try {
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
     const html = document.querySelector("html");
@@ -15,10 +66,11 @@ function AuthWrapper({ type }: { type: "signup" | "login" }) {
     const blurDiv = document.querySelector("#blur-div");
     html!.style.overflowY = "hidden";
     const handleBlurDivClick = () => {
-      dispatch(closeAuthModal());
+      // dispatch(closeAuthModal());
     };
     const handleAuthModalClick = (e: Event) => {
-      e.stopPropagation();
+      // console.log("here");
+      // e.stopPropagation();
     };
     authModal?.addEventListener("click", handleAuthModalClick);
     blurDiv?.addEventListener("click", handleBlurDivClick);
@@ -65,23 +117,45 @@ function AuthWrapper({ type }: { type: "signup" | "login" }) {
             <div className="flex flex-col gap-5">
               <input
                 type="text"
+                name="email"
                 placeholder="Email / Username"
                 className="border border-slate-300 p-3 w-80"
+                onChange={handleChange}
               />
               <input
                 type="password"
                 placeholder="Password"
                 className="border border-slate-300 p-3 w-80"
+                name="password"
+                onChange={handleChange}
               />
-              <button className="bg-[#1DBF73] text-white px-12 text-lg font-semibold rounded-r-md p-3 w-80">
+              <button
+                className="bg-[#1DBF73] text-white px-12 text-lg font-semibold rounded-r-md p-3 w-80"
+                onClick={handleClick}
+                type="button"
+              >
                 Continue
               </button>
             </div>
           </div>
           <div className="py-5 w-full flex items-center justify-center border-t border-slate-400">
             <span className="text-sm  text-slate-700">
-              Not a member yet?&nbsp;
-              <span className="text-[#1DBF73] cursor-pointer">Join Now</span>
+              {" "}
+              {type === "login" ? (
+                <>
+                  Not a member yet?&nbsp;
+                  <span className="text-[#1DBF73] cursor-pointer">
+                    Join Now
+                  </span>
+                </>
+              ) : (
+                <>
+                  Already a member?&nbsp;
+                  <span className="text-[#1DBF73] cursor-pointer">
+                    Login Now
+                  </span>
+                </>
+              )}
             </span>
           </div>
         </div>

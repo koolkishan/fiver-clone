@@ -19,6 +19,7 @@
     "firebase": "^9.19.1",
     "next": "13.2.4",
     "react": "18.2.0",
+    "react-cookie": "^4.1.1",
     "react-dom": "18.2.0",
     "react-icons": "^4.8.0",
     "react-redux": "^8.0.5",
