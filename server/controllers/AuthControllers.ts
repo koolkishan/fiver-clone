@@ -1,6 +1,6 @@
 import { NextFunction, Response, Request } from "express";
 import { Prisma, PrismaClient } from "@prisma/client";
-import { genSalt, hash } from "bcrypt";
+import { genSalt, hash, compare } from "bcrypt";
 import { sign } from "jsonwebtoken";
 
 const generatePassword = async (password: string) => {
@@ -31,7 +31,7 @@ export const signup = async (
           password: await generatePassword(password),
         },
       });
-      res
+      return res
         .cookie("jwt", createToken(email), {
           httpOnly: false,
           maxAge: maxAge * 1000,
@@ -39,30 +39,56 @@ export const signup = async (
         .status(201)
         .send();
     } else {
-      res.status(400).send("Email and Password Required");
+      return res.status(400).send("Email and Password Required");
     }
   } catch (err) {
     if (err instanceof Prisma.PrismaClientKnownRequestError) {
       if (err.code === "P2002") {
-        console.log(
-          "There is a unique constraint violation, a new user cannot be created with this email"
-        );
-        res.status(400).send("Email Already Registered");
+        return res.status(400).send("Email Already Registered");
       }
     } else {
-      res.status(500).send("Internal Server Error");
+      return res.status(500).send("Internal Server Error");
     }
     throw err;
   }
 };
 
-export const login = (req: Request, res: Response, next: NextFunction) => {
+export const login = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
-    console.log("here", req.body);
-    if (req.body.email && req.body.password) {
+    const prisma = new PrismaClient();
+    const { email, password } = req.body;
+    if (email && password) {
+      const user = await prisma.user.findUnique({
+        where: {
+          email,
+        },
+      });
+      if (!user) {
+        return res.status(404).send("User not found");
+      }
+
+      const auth = await compare(password, user.password);
+      if (!auth) {
+        return res.status(400).send("Invalid Password");
+      }
+
+      return res
+        .cookie("jwt", createToken(email), {
+          httpOnly: false,
+          maxAge: maxAge * 1000,
+        })
+        .status(200)
+        .send();
     } else {
+      return res.status(400).send("Email and Password Required");
     }
-  } catch (err) {}
+  } catch (err) {
+    return res.status(500).send("Internal Server Error");
+  }
 };
 
 export const socialLogin = (
