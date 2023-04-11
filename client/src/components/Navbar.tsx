@@ -30,8 +30,8 @@ function Navbar() {
     { linkName: "Explore", handler: "#", type: "link" },
     { linkName: "English", handler: "#", type: "link" },
     { linkName: "Become a Seller", handler: "#", type: "link" },
-    { linkName: "Sign in", handler: handleSignup, type: "button" },
-    { linkName: "Join", handler: handleLogin, type: "button2" },
+    { linkName: "Sign in", handler: handleLogin, type: "button" },
+    { linkName: "Join", handler: handleSignup, type: "button2" },
   ];
   useEffect(() => {
     const positionNavbar = () => {
