@@ -1,4 +1,8 @@
-import { closeAuthModal } from "@/app/auth/AuthSlice";
+import {
+  closeAuthModal,
+  toggleLoginModal,
+  toggleSignupModal,
+} from "@/app/auth/AuthSlice";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { useCookies } from "react-cookie";
 import { LOGIN_ROUTE, SIGNUP_ROUTE } from "@/utils/constants";
@@ -41,20 +45,6 @@ function AuthWrapper({ type }: { type: "signup" | "login" }) {
         dispatch(closeAuthModal());
         router.push("/dashboard");
       }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const handleGoogleLogin = () => {
-    try {
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const handleFacebookLogin = () => {
-    try {
     } catch (err) {
       console.log(err);
     }
@@ -144,14 +134,26 @@ function AuthWrapper({ type }: { type: "signup" | "login" }) {
               {type === "login" ? (
                 <>
                   Not a member yet?&nbsp;
-                  <span className="text-[#1DBF73] cursor-pointer">
+                  <span
+                    className="text-[#1DBF73] cursor-pointer"
+                    onClick={() => {
+                      dispatch(toggleSignupModal(true));
+                      dispatch(toggleLoginModal(false));
+                    }}
+                  >
                     Join Now
                   </span>
                 </>
               ) : (
                 <>
                   Already a member?&nbsp;
-                  <span className="text-[#1DBF73] cursor-pointer">
+                  <span
+                    className="text-[#1DBF73] cursor-pointer"
+                    onClick={() => {
+                      dispatch(toggleSignupModal(false));
+                      dispatch(toggleLoginModal(true));
+                    }}
+                  >
                     Login Now
                   </span>
                 </>
