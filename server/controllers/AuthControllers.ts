@@ -9,9 +9,9 @@ const generatePassword = async (password: string) => {
 };
 
 const maxAge = 3 * 24 * 60 * 60;
-const createToken = (email: string) => {
+const createToken = (email: string, userId: number) => {
   // @ts-ignore
-  return sign({ email }, process.env.JWT_KEY, {
+  return sign({ email, userId }, process.env.JWT_KEY, {
     expiresIn: maxAge,
   });
 };
@@ -25,14 +25,14 @@ export const signup = async (
     const prisma = new PrismaClient();
     const { email, password } = req.body;
     if (email && password) {
-      await prisma.user.create({
+      const user = await prisma.user.create({
         data: {
           email,
           password: await generatePassword(password),
         },
       });
       return res
-        .cookie("jwt", createToken(email), {
+        .cookie("jwt", createToken(email, user.id), {
           httpOnly: false,
           maxAge: maxAge * 1000,
         })
@@ -77,7 +77,7 @@ export const login = async (
       }
 
       return res
-        .cookie("jwt", createToken(email), {
+        .cookie("jwt", createToken(email, user.id), {
           httpOnly: false,
           maxAge: maxAge * 1000,
         })

@@ -4,8 +4,10 @@ import Link from "next/link";
 import { IoSearchOutline } from "react-icons/io5";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { toggleLoginModal, toggleSignupModal } from "@/app/auth/AuthSlice";
+import { useRouter } from "next/router";
 
 function Navbar() {
+  const router = useRouter();
   const [navFixed, setNavFixed] = useState(false);
   const { showLoginModal, showSignupModal } = useAppSelector(
     ({ auth }) => auth
@@ -34,12 +36,16 @@ function Navbar() {
     { linkName: "Join", handler: handleSignup, type: "button2" },
   ];
   useEffect(() => {
-    const positionNavbar = () => {
-      window.pageYOffset > 0 ? setNavFixed(true) : setNavFixed(false);
-    };
-    window.addEventListener("scroll", positionNavbar);
-    return () => window.removeEventListener("scroll", positionNavbar);
-  }, []);
+    if (router.pathname === "/") {
+      const positionNavbar = () => {
+        window.pageYOffset > 0 ? setNavFixed(true) : setNavFixed(false);
+      };
+      window.addEventListener("scroll", positionNavbar);
+      return () => window.removeEventListener("scroll", positionNavbar);
+    } else {
+      setNavFixed(true);
+    }
+  }, [router.pathname]);
 
   return (
     <nav
@@ -48,7 +54,9 @@ function Navbar() {
       }`}
     >
       <div>
-        <FiverrLogo fillColor={!navFixed ? "#ffffff" : "#404145"} />
+        <Link href="/">
+          <FiverrLogo fillColor={!navFixed ? "#ffffff" : "#404145"} />
+        </Link>
       </div>
       <div className={`flex ${navFixed ? "opacity-100" : "opacity-0"}`}>
         <input

@@ -136,7 +136,7 @@ function Footer() {
     },
   ];
   return (
-    <footer className="w-[1400px] m-auto px-6">
+    <footer className="w-[1400px] mx-auto px-6 h-max ">
       <ul className="flex justify-between ">
         {data.map(({ headerName, links }) => {
           return (

@@ -15,4 +15,19 @@ model User {
   email String  @unique
   password String 
   isSocialLogin Boolean? @default(false)
+  gigs Gigs[]
+}
+
+model Gigs {
+  id Int @id @default(autoincrement())
+  title String
+  description String
+  category String
+  deliveryTime Int
+  revisions Int
+  features String[]
+  price Int
+  images String[]
+  createdBy User @relation(fields: [userId], references: [id])
+  userId Int
 }

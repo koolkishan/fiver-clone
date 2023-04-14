@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import { authRoutes } from "./routes/AuthRoutes";
 import cookieParser from "cookie-parser";
+import { gigRoutes } from "./routes/GigRoutes";
 
 dotenv.config();
 
@@ -15,11 +16,12 @@ app.use(
     credentials: true,
   })
 );
-
+app.use("/uploads", express.static("uploads"));
 app.use(cookieParser());
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
+app.use("/api/gigs", gigRoutes);
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
