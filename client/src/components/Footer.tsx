@@ -137,7 +137,7 @@ function Footer() {
     },
   ];
   return (
-    <footer className="w-full  mx-auto px-32 py-16 h-max border-t border-gray-200 ">
+    <footer className="w-full  mx-auto px-32 py-16 h-max border-t border-gray-200 bg-gray-100">
       <ul className="flex justify-between">
         {data.map(({ headerName, links }) => {
           return (
