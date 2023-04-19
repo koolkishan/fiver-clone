@@ -7,6 +7,7 @@ import {
   FiLinkedin,
   FiTwitter,
 } from "react-icons/fi";
+import FiverrLogo from "./FiverrLogo";
 
 function Footer() {
   const socialLinks = [
@@ -136,15 +137,15 @@ function Footer() {
     },
   ];
   return (
-    <footer className="w-[1400px] mx-auto px-6 h-max ">
-      <ul className="flex justify-between ">
+    <footer className="w-full  mx-auto px-32 py-16 h-max border-t border-gray-200 ">
+      <ul className="flex justify-between">
         {data.map(({ headerName, links }) => {
           return (
             <li key={headerName} className="flex flex-col gap-2">
               <span className="font-bold">{headerName}</span>
               <ul className="flex flex-col gap-2">
                 {links.map(({ name, link }) => (
-                  <li key={name}>
+                  <li key={name} className="text-[#404145]">
                     <Link href={link}>{name}</Link>
                   </li>
                 ))}
@@ -153,11 +154,14 @@ function Footer() {
           );
         })}
       </ul>
-      <div className="">
-        <div>Fiverr</div>
-        <ul className="flex gap-2">
+      <div className="mt-12 flex items-center justify-between">
+        <FiverrLogo fillColor={"#404145"} />
+        <ul className="flex gap-5">
           {socialLinks.map(({ icon, link, name }) => (
-            <li key={name}>
+            <li
+              key={name}
+              className="text-xl text-[#404145] hover:text-[#1DBF73] transition-all"
+            >
               <Link href={link}>{icon}</Link>
             </li>
           ))}
