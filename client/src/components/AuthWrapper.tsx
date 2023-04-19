@@ -1,9 +1,3 @@
-import {
-  closeAuthModal,
-  toggleLoginModal,
-  toggleSignupModal,
-} from "@/app/auth/AuthSlice";
-import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { useCookies } from "react-cookie";
 import { LOGIN_ROUTE, SIGNUP_ROUTE } from "@/utils/constants";
 import axios from "axios";
@@ -11,20 +5,19 @@ import React, { useEffect, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { MdFacebook } from "react-icons/md";
 import { useRouter } from "next/router";
+import { useStateProvider } from "@/context/StateContext";
+import { reducerCases } from "@/context/constants";
 
 function AuthWrapper({ type }: { type: "signup" | "login" }) {
   const [cookies] = useCookies();
-  const dispatch = useAppDispatch();
+  const [{ showLoginModal, showSignupModal }, dispatch] = useStateProvider();
   const router = useRouter();
 
-  const { showLoginModal, showSignupModal } = useAppSelector(
-    ({ auth }) => auth
-  );
   const [values, setValues] = useState({ email: "", password: "" });
 
   useEffect(() => {
     if (cookies.jwt) {
-      dispatch(closeAuthModal());
+      dispatch({ type: reducerCases.CLOSE_AUTH_MODAL });
       router.push("/dashboard");
     }
   }, [cookies, dispatch, router]);
@@ -37,13 +30,18 @@ function AuthWrapper({ type }: { type: "signup" | "login" }) {
     try {
       const { email, password } = values;
       if (email && password) {
-        await axios.post(
+        const {
+          data: { user },
+        } = await axios.post(
           type === "login" ? LOGIN_ROUTE : SIGNUP_ROUTE,
           { email, password },
           { withCredentials: true }
         );
-        dispatch(closeAuthModal());
-        router.push("/dashboard");
+        dispatch({ type: reducerCases.CLOSE_AUTH_MODAL });
+
+        if (user) {
+          dispatch({ type: reducerCases.SET_USER, userInfo: user });
+        }
       }
     } catch (err) {
       console.log(err);
@@ -137,8 +135,14 @@ function AuthWrapper({ type }: { type: "signup" | "login" }) {
                   <span
                     className="text-[#1DBF73] cursor-pointer"
                     onClick={() => {
-                      dispatch(toggleSignupModal(true));
-                      dispatch(toggleLoginModal(false));
+                      dispatch({
+                        type: reducerCases.TOGGLE_SIGNUP_MODAL,
+                        showSignupModal: true,
+                      });
+                      dispatch({
+                        type: reducerCases.TOGGLE_LOGIN_MODAL,
+                        showLoginModal: false,
+                      });
                     }}
                   >
                     Join Now
@@ -150,8 +154,14 @@ function AuthWrapper({ type }: { type: "signup" | "login" }) {
                   <span
                     className="text-[#1DBF73] cursor-pointer"
                     onClick={() => {
-                      dispatch(toggleSignupModal(false));
-                      dispatch(toggleLoginModal(true));
+                      dispatch({
+                        type: reducerCases.TOGGLE_SIGNUP_MODAL,
+                        showSignupModal: false,
+                      });
+                      dispatch({
+                        type: reducerCases.TOGGLE_LOGIN_MODAL,
+                        showLoginModal: true,
+                      });
                     }}
                   >
                     Login Now

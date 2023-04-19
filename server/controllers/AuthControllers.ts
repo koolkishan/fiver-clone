@@ -37,7 +37,7 @@ export const signup = async (
           maxAge: maxAge * 1000,
         })
         .status(201)
-        .send();
+        .json({ user: { id: user?.id, email: user?.email } });
     } else {
       return res.status(400).send("Email and Password Required");
     }
@@ -82,7 +82,7 @@ export const login = async (
           maxAge: maxAge * 1000,
         })
         .status(200)
-        .send();
+        .json({ user: { id: user?.id, email: user?.email } });
     } else {
       return res.status(400).send("Email and Password Required");
     }
@@ -91,11 +91,24 @@ export const login = async (
   }
 };
 
-export const socialLogin = (
+export const getUserInfo = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-  } catch (err) {}
+    if (req?.userId) {
+      const prisma = new PrismaClient();
+      const user = await prisma.user.findUnique({
+        where: {
+          id: req.userId,
+        },
+      });
+      return res
+        .status(200)
+        .json({ user: { id: user?.id, email: user?.email } });
+    }
+  } catch (err) {
+    res.status(500).send("Internal Server Occured");
+  }
 };

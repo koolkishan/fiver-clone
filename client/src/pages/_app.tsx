@@ -3,11 +3,13 @@ import "@/globals.css";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { Provider } from "react-redux";
-import { store } from "@/app/store";
+
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCookies } from "react-cookie";
 import { useEffect } from "react";
+import { StateProvider } from "@/context/StateContext";
+import reducer, { initialState } from "@/context/StateReducers";
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -21,9 +23,10 @@ export default function App({ Component, pageProps }: AppProps) {
         router.push("/");
       }
     }
-  }, [cookies.jwt, router]);
+  }, [cookies, router]);
+
   return (
-    <Provider store={store}>
+    <StateProvider initialState={initialState} reducer={reducer}>
       <Head>
         <link rel="shortcut icon" href="/favicon.ico" />
         <title>Fiverr Clone</title>
@@ -39,6 +42,6 @@ export default function App({ Component, pageProps }: AppProps) {
         </div>
         <Footer />
       </div>
-    </Provider>
+    </StateProvider>
   );
 }

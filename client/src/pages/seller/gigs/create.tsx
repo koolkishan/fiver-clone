@@ -77,7 +77,7 @@ function CreateGigs() {
     }
   };
   return (
-    <div className="min-h-[80vh] my-10 mt-0 px-32 ">
+    <div className="min-h-[80vh] my-10 mt-0 px-32">
       <h1 className="text-6xl text-gray-900 mb-5">Create a new Gig</h1>
       <h3 className="text-3xl text-gray-900 mb-5">
         Enter the details to create the gig

@@ -26,3 +26,13 @@ app.use("/api/gigs", gigRoutes);
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
 });
+
+process.once("SIGUSR2", function () {
+  console.log("here");
+  process.kill(process.pid, "SIGUSR2");
+});
+
+process.on("SIGINT", function () {
+  // this is only called on ctrl+c, not restart
+  process.kill(process.pid, "SIGINT");
+});

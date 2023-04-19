@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { login, signup, socialLogin } from "../controllers/AuthControllers";
+import { getUserInfo, login, signup } from "../controllers/AuthControllers";
+import { verifyToken } from "../middlewares/AuthMiddleware";
 
 export const authRoutes = Router();
 
 authRoutes.post("/signup", signup);
 authRoutes.post("/login", login);
-authRoutes.post("/social-login", socialLogin);
+authRoutes.post("/get-user-info", verifyToken, getUserInfo);
