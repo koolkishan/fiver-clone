@@ -1,7 +1,9 @@
 import Image from "next/image";
+import { useRouter } from "next/router";
 import React from "react";
 
 function Services() {
+  const router = useRouter();
   const categories = [
     { name: "Graphic Design", logo: "/service-1.svg" },
     { name: "Digital Marketing", logo: "/service-2.svg" },
@@ -25,6 +27,7 @@ function Services() {
             <li
               key={name}
               className="flex flex-col justify-center items-center cursor-pointer hover:shadow-2xl hover:border-[#1DBF73]  border-2 border-transparent p-5 transition-all duration-500"
+              onClick={() => router.push(`/search?category=${name}`)}
             >
               <Image src={logo} alt="category" height={50} width={50} />
               <span>{name}</span>

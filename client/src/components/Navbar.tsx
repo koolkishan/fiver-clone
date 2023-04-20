@@ -15,6 +15,7 @@ function Navbar() {
   const [cookies] = useCookies();
   const router = useRouter();
   const [navFixed, setNavFixed] = useState(false);
+  const [searchData, setSearchData] = useState("");
   const [{ showLoginModal, showSignupModal, isSeller, userInfo }, dispatch] =
     useStateProvider();
 
@@ -164,8 +165,16 @@ function Navbar() {
           type="text"
           placeholder="What service are you looking for today?"
           className="w-[30rem] py-2.5 px-4 border"
+          value={searchData}
+          onChange={(e) => setSearchData(e.target.value)}
         />
-        <button className="bg-gray-900 py-1.5 text-white w-16 flex justify-center items-center">
+        <button
+          className="bg-gray-900 py-1.5 text-white w-16 flex justify-center items-center"
+          onClick={() => {
+            setSearchData("");
+            router.push(`/search?q=${searchData}`);
+          }}
+        >
           <IoSearchOutline className="fill-white text-white h-6 w-6" />
         </button>
       </div>

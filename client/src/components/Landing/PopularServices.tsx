@@ -1,7 +1,9 @@
 import Image from "next/image";
+import { useRouter } from "next/router";
 import React from "react";
 
 function PopularServices() {
+  const router = useRouter();
   const popularServicesData = [
     { name: "Ai Artists", label: "Add talent to AI", image: "/service1.png" },
     { name: "Logo Design", label: "Build your brand", image: "/service2.jpeg" },
@@ -36,7 +38,11 @@ function PopularServices() {
       <ul className="flex flex-wrap gap-16">
         {popularServicesData.map(({ name, label, image }) => {
           return (
-            <li key={name} className="relative cursor-pointer">
+            <li
+              key={name}
+              className="relative cursor-pointer"
+              onClick={() => router.push(`/search?q=${name.toLowerCase()}`)}
+            >
               <div className="absolute z-10 text-white left-5 top-4">
                 <span>{label}</span>
                 <h6 className="font-extrabold text-2xl">{name}</h6>
