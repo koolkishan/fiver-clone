@@ -1,10 +1,15 @@
 import Image from "next/image";
+import { useRouter } from "next/router";
 import React from "react";
 import { FaStar } from "react-icons/fa";
 
 function SearchGridItem() {
+  const router = useRouter();
   return (
-    <div className="max-w-[300px] flex flex-col gap-2 p-1 cursor-pointer mb-8">
+    <div
+      className="max-w-[300px] flex flex-col gap-2 p-1 cursor-pointer mb-8"
+      onClick={() => router.push("/gig")}
+    >
       <div>
         <Image
           src="/demo.webp"
