@@ -8,6 +8,7 @@ import {
   FiTwitter,
 } from "react-icons/fi";
 import FiverrLogo from "./FiverrLogo";
+import { categories } from "@/utils/categories";
 
 function Footer() {
   const socialLinks = [
@@ -37,50 +38,10 @@ function Footer() {
     {
       headerName: "Categories",
       links: [
-        {
-          name: "Graphics & Design",
-          link: "#",
-        },
-        {
-          name: "Digital Marketing",
-          link: "#",
-        },
-        {
-          name: "Writing & Translation",
-          link: "#",
-        },
-        {
-          name: "Video & Animation",
-          link: "#",
-        },
-        {
-          name: "Music & Video",
-          link: "#",
-        },
-        {
-          name: "Programming & Tech",
-          link: "#",
-        },
-        {
-          name: "Data",
-          link: "#",
-        },
-        {
-          name: "Business",
-          link: "#",
-        },
-        {
-          name: "Lifestyle",
-          link: "#",
-        },
-        {
-          name: "Photography",
-          link: "#",
-        },
-        {
-          name: "Sitemap",
-          link: "#",
-        },
+        ...categories.map(({ name }) => ({
+          name,
+          link: `/search?category=${name}`,
+        })),
       ],
     },
     {

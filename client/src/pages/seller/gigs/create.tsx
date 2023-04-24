@@ -1,4 +1,5 @@
 import ImageUpload from "@/components/ImageUpload";
+import { categories } from "@/utils/categories";
 import { ADD_GIG_ROUTE } from "@/utils/constants";
 import axios from "axios";
 import { useRouter } from "next/router";
@@ -22,6 +23,7 @@ function CreateGigs() {
     revisions: 0,
     feature: "",
     price: 0,
+    shortDesc: "",
   });
   const removeFeature = (index: number) => {
     const clonedFeatures = [...features];
@@ -40,8 +42,17 @@ function CreateGigs() {
     }
   };
   const addGig = async () => {
-    const { category, description, price, revisions, time, title } = data;
-
+    const { category, description, price, revisions, time, title, shortDesc } =
+      data;
+    console.log({
+      category,
+      description,
+      price,
+      revisions,
+      time,
+      title,
+      shortDesc,
+    });
     if (
       category &&
       description &&
@@ -49,6 +60,7 @@ function CreateGigs() {
       features.length &&
       files.length &&
       price > 0 &&
+      shortDesc.length &&
       revisions > 0 &&
       time > 0
     ) {
@@ -62,6 +74,7 @@ function CreateGigs() {
         price,
         revisions,
         time,
+        shortDesc,
       };
       const response = await axios.post(ADD_GIG_ROUTE, formData, {
         withCredentials: true,
@@ -110,10 +123,11 @@ function CreateGigs() {
               onChange={handleChange}
               defaultValue="Choose a Category"
             >
-              <option value="webdev">Web Development</option>
-              <option value="webdesign">Web Design</option>
-              <option value="animations">Animations</option>
-              <option value="copywriting">Copy Writing</option>
+              {categories.map(({ name }) => (
+                <option key={name} value={name}>
+                  {name}
+                </option>
+              ))}
             </select>
           </div>
         </div>
@@ -181,7 +195,7 @@ function CreateGigs() {
                 Add
               </button>
             </div>
-            <ul className="flex gap-2">
+            <ul className="flex gap-2 flex-wrap">
               {features.map((feature, index) => {
                 return (
                   <li
@@ -209,19 +223,35 @@ function CreateGigs() {
             </div>
           </div>
         </div>
-        <div>
-          <label htmlFor="price" className={labelClassName}>
-            Gig Price ( $ )
-          </label>
-          <input
-            type="number"
-            className={`${inputClassName} w-1/5`}
-            id="price"
-            placeholder="Enter a price"
-            name="price"
-            value={data.price}
-            onChange={handleChange}
-          />
+        <div className="grid grid-cols-2 gap-11">
+          <div>
+            <label htmlFor="shortDesc" className={labelClassName}>
+              Short Description
+            </label>
+            <input
+              type="text"
+              className={`${inputClassName} w-1/5`}
+              id="shortDesc"
+              placeholder="Enter a short description."
+              name="shortDesc"
+              value={data.shortDesc}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label htmlFor="price" className={labelClassName}>
+              Gig Price ( $ )
+            </label>
+            <input
+              type="number"
+              className={`${inputClassName} w-1/5`}
+              id="price"
+              placeholder="Enter a price"
+              name="price"
+              value={data.price}
+              onChange={handleChange}
+            />
+          </div>
         </div>
         <div>
           <button

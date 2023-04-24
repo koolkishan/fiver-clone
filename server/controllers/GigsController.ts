@@ -13,47 +13,52 @@ export const addGig = async (
       const fileKeys = Object.keys(req.files);
       const fileNames = [];
       fileKeys.forEach((file: any) => {
+        const date = Date.now();
         renameSync(
           req.files[file].path,
-          "uploads/" + req.files[file].originalname
+          "uploads/" + date + req.files[file].originalname
         );
-        fileNames.push(req.files[file].originalname);
+        fileNames.push(date + req.files[file].originalname);
       });
-    }
-    if (req.query) {
-      const {
-        title,
-        description,
-        category,
-        features,
-        price,
-        revisions,
-        time,
-      }: {
-        title: string;
-        description: string;
-        category: string;
-        features: string[];
-        price: number;
-        revisions: number;
-        time: number;
-      } = req.query;
-      const prisma = new PrismaClient();
-      const gig = await prisma.gigs.create({
-        data: {
+      if (req.query) {
+        const {
           title,
           description,
-          deliveryTime: parseInt(time),
           category,
           features,
-          price: parseInt(price),
-          revisions: parseInt(revisions),
-          createdBy: { connect: { id: req.userId } },
-        },
-      });
-      console.log({ gig });
+          price,
+          revisions,
+          time,
+          shortDesc,
+        }: {
+          title: string;
+          description: string;
+          category: string;
+          features: string[];
+          price: number;
+          revisions: number;
+          time: number;
+          shortDesc: string;
+        } = req.query;
+        const prisma = new PrismaClient();
 
-      return res.status(201).send("Successfully created the gig.");
+        await prisma.gigs.create({
+          data: {
+            title,
+            description,
+            deliveryTime: parseInt(time),
+            category,
+            features,
+            price: parseInt(price),
+            shortDesc,
+            revisions: parseInt(revisions),
+            createdBy: { connect: { id: req.userId } },
+            images: fileNames,
+          },
+        });
+
+        return res.status(201).send("Successfully created the gig.");
+      }
     }
     return res.status(400).send("All properties should be required.");
   } catch (err) {

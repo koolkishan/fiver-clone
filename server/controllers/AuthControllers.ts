@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { NextFunction, Response, Request } from "express";
 import { Prisma, PrismaClient } from "@prisma/client";
 import { genSalt, hash, compare } from "bcrypt";

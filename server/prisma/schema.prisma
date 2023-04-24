@@ -20,13 +20,15 @@ model User {
 
 model Gigs {
   id Int @id @default(autoincrement())
-  title String
+  title String 
   description String
   category String
   deliveryTime Int
   revisions Int
   features String[]
   price Int
+  shortDesc String
+  createdAt DateTime @default(now())
   images String[]
   createdBy User @relation(fields: [userId], references: [id])
   userId Int
