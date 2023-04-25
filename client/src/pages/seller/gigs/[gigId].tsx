@@ -54,7 +54,7 @@ function EditGig() {
         setfeatures(gig.features);
 
         gig.images.forEach((image: string) => {
-          const url = "http://localhost:8746/uploads/" + image;
+          const url = "http://localhost:8747/uploads/" + image;
           const fileName = image;
           fetch(url).then(async (response) => {
             const contentType = response.headers.get("content-type");

@@ -6,12 +6,12 @@ const nextConfig = {
       {
         protocol: "http",
         hostname: "localhost",
-        port: "8746",
+        port: "8747",
       },
     ],
   },
   env: {
-    SERVER_URL: "http://localhost:8746",
+    SERVER_URL: "http://localhost:8747",
   },
 };
 

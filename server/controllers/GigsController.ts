@@ -175,5 +175,47 @@ export const editGig = async (
     return res.status(400).send("All properties should be required.");
   } catch (err) {
     console.log(err);
+    return res.status(500).send("Internal Server Error");
   }
+};
+
+export const searchGigs = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    if (req.query.searchTerm || req.query.category) {
+      const prisma = new PrismaClient();
+      console.log(
+        createSearchQuery(req.query.searchTerm, req.query.category).where.OR
+      );
+      const gigs = await prisma.gigs.findMany(
+        createSearchQuery(req.query.searchTerm, req.query.category)
+      );
+      return res.status(200).json({ gigs });
+    }
+    return res.status(400).send("Search Term or Category is required.");
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const createSearchQuery = (searchTerm, category) => {
+  const query = {
+    where: {
+      OR: [],
+    },
+  };
+  if (searchTerm) {
+    query.where.OR.push({
+      title: { contains: searchTerm },
+    });
+  }
+  if (category) {
+    query.where.OR.push({
+      category: { contains: category },
+    });
+  }
+  return query;
 };

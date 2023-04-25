@@ -4,6 +4,7 @@ import {
   editGig,
   getGigData,
   getUserAuthGigs,
+  searchGigs,
 } from "../controllers/GigsController";
 import multer from "multer";
 import { verifyToken } from "../middlewares/AuthMiddleware";
@@ -16,3 +17,4 @@ gigRoutes.post("/add", verifyToken, upload.array("images"), addGig);
 gigRoutes.get("/get-user-gigs", verifyToken, getUserAuthGigs);
 gigRoutes.get("/get-gig-data/:gigId", getGigData);
 gigRoutes.put("/edit-gig/:gigId", verifyToken, upload.array("images"), editGig);
+gigRoutes.get("/search-gigs", searchGigs);
