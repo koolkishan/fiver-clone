@@ -5,6 +5,7 @@ export const initialState = {
   showLoginModal: false,
   showSignupModal: false,
   isSeller: false,
+  gigData: undefined,
 };
 
 const reducer = (state: any, action: any) => {
@@ -34,6 +35,11 @@ const reducer = (state: any, action: any) => {
       return {
         ...state,
         isSeller: !state.isSeller,
+      };
+    case reducerCases.SET_GIG_DATA:
+      return {
+        ...state,
+        gigData: action.gigData,
       };
     default:
       return state;
