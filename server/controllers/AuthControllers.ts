@@ -3,6 +3,7 @@ import { NextFunction, Response, Request } from "express";
 import { Prisma, PrismaClient } from "@prisma/client";
 import { genSalt, hash, compare } from "bcrypt";
 import { sign } from "jsonwebtoken";
+import { renameSync } from "fs";
 
 const generatePassword = async (password: string) => {
   const salt = await genSalt();
@@ -43,6 +44,7 @@ export const signup = async (
       return res.status(400).send("Email and Password Required");
     }
   } catch (err) {
+    console.log(err);
     if (err instanceof Prisma.PrismaClientKnownRequestError) {
       if (err.code === "P2002") {
         return res.status(400).send("Email Already Registered");
@@ -105,11 +107,90 @@ export const getUserInfo = async (
           id: req.userId,
         },
       });
-      return res
-        .status(200)
-        .json({ user: { id: user?.id, email: user?.email } });
+      return res.status(200).json({
+        user: {
+          id: user?.id,
+          email: user?.email,
+          image: user?.profileImage,
+          username: user?.username,
+          fullName: user?.fullName,
+          description: user?.description,
+        },
+      });
     }
   } catch (err) {
+    res.status(500).send("Internal Server Occured");
+  }
+};
+
+export const setUserInfo = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    if (req?.userId) {
+      const { userName, fullName, description } = req.body;
+      if (userName && fullName && description) {
+        const prisma = new PrismaClient();
+        const userNameValid = await prisma.user.findUnique({
+          where: { username: userName },
+        });
+        if (userNameValid) {
+          return res.status(200).json({ userNameError: true });
+        }
+        await prisma.user.update({
+          where: { id: req.userId },
+          data: {
+            username: userName,
+            fullName,
+            description,
+            isProfileInfoSet: true,
+          },
+        });
+        return res.status(200).send("Profile data updated successfully.");
+      } else {
+        return res
+          .status(400)
+          .send("Username, Full Name and description should be included.");
+      }
+    }
+  } catch (err) {
+    if (err instanceof Prisma.PrismaClientKnownRequestError) {
+      if (err.code === "P2002") {
+        return res.status(400).json({ userNameError: true });
+      }
+    } else {
+      return res.status(500).send("Internal Server Error");
+    }
+    throw err;
+  }
+};
+
+export const setUserImage = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    if (req.file) {
+      if (req?.userId) {
+        const date = Date.now();
+        let fileName = "uploads/profiles/" + date + req.file.originalname;
+        renameSync(req.file.path, fileName);
+        const prisma = new PrismaClient();
+
+        await prisma.user.update({
+          where: { id: req.userId },
+          data: { profileImage: fileName },
+        });
+        return res.status(200).json({ img: fileName });
+      }
+      return res.status(400).send("Cookie Error.");
+    }
+    return res.status(400).send("Image not inclued.");
+  } catch (err) {
+    console.log(err);
     res.status(500).send("Internal Server Occured");
   }
 };

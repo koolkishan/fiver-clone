@@ -3,9 +3,10 @@ import { FiClock, FiRefreshCcw } from "react-icons/fi";
 import { BiRightArrowAlt } from "react-icons/bi";
 import { BsCheckLg } from "react-icons/bs";
 import { useStateProvider } from "@/context/StateContext";
+import { useRouter } from "next/router";
 function Pricing() {
   const [{ gigData }, dispatch] = useStateProvider();
-  console.log({ gigData });
+  const router = useRouter();
 
   return (
     <>
@@ -39,7 +40,10 @@ function Pricing() {
                 </li>
               ))}
             </ul>
-            <button className="flex items-center bg-[#1DBF73] text-white py-2 justify-center font-bold text-lg relative rounded">
+            <button
+              className="flex items-center bg-[#1DBF73] text-white py-2 justify-center font-bold text-lg relative rounded"
+              onClick={() => router.push(`/checkout?gigId=${gigData.id}`)}
+            >
               <span>Continue</span>
               <BiRightArrowAlt className="text-2xl absolute right-4" />
             </button>

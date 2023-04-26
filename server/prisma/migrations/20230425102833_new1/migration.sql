@@ -1,0 +1,6 @@
+-- AlterTable
+ALTER TABLE "User" ALTER COLUMN "description" DROP NOT NULL,
+ALTER COLUMN "fullName" DROP NOT NULL,
+ALTER COLUMN "isProfileInfoSet" DROP NOT NULL,
+ALTER COLUMN "profileImage" DROP NOT NULL,
+ALTER COLUMN "username" DROP NOT NULL;

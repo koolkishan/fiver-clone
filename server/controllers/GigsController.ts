@@ -187,9 +187,6 @@ export const searchGigs = async (
   try {
     if (req.query.searchTerm || req.query.category) {
       const prisma = new PrismaClient();
-      console.log(
-        createSearchQuery(req.query.searchTerm, req.query.category).where.OR
-      );
       const gigs = await prisma.gigs.findMany(
         createSearchQuery(req.query.searchTerm, req.query.category)
       );

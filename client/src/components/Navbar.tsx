@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import { useCookies } from "react-cookie";
 import axios from "axios";
-import { GET_USER_INFO } from "@/utils/constants";
+import { GET_USER_INFO, HOST } from "@/utils/constants";
 import ContextMenu from "./ContextMenu";
 import { useStateProvider } from "@/context/StateContext";
 import { reducerCases } from "@/context/constants";
@@ -16,9 +16,10 @@ function Navbar() {
   const router = useRouter();
   const [navFixed, setNavFixed] = useState(false);
   const [searchData, setSearchData] = useState("");
+  const [isLoaded, setIsLoaded] = useState(false);
   const [{ showLoginModal, showSignupModal, isSeller, userInfo }, dispatch] =
     useStateProvider();
-
+  console.log({ userInfo });
   const handleLogin = () => {
     if (showSignupModal) {
       dispatch({
@@ -97,14 +98,27 @@ function Navbar() {
               },
             }
           );
-
-          dispatch({ type: reducerCases.SET_USER, userInfo: user });
+          let projectedUserInfo = { ...user };
+          if (user.image) {
+            projectedUserInfo = {
+              ...projectedUserInfo,
+              imageName: HOST + "/" + user.image,
+            };
+          }
+          delete projectedUserInfo.image;
+          dispatch({
+            type: reducerCases.SET_USER,
+            userInfo: projectedUserInfo,
+          });
+          setIsLoaded(true);
         } catch (err) {
           console.log(err);
         }
       };
 
       getUserInfo();
+    } else {
+      setIsLoaded(true);
     }
   }, [cookies, userInfo, dispatch]);
   const [isContextMenuVisible, setIsContextMenuVisible] = useState(false);
@@ -141,118 +155,132 @@ function Navbar() {
       },
     },
   ];
-
+  // console.log({ user });
   return (
-    <nav
-      className={`w-full px-24 flex justify-between items-center py-6  top-0 z-30 transition-all duration-300 ${
-        navFixed || userInfo
-          ? "fixed bg-white border-b border-gray-200"
-          : "absolute bg-transparent border-transparent"
-      }`}
-    >
-      <div>
-        <Link href="/">
-          <FiverrLogo
-            fillColor={!navFixed && !userInfo ? "#ffffff" : "#404145"}
-          />
-        </Link>
-      </div>
-      <div
-        className={`flex ${navFixed || userInfo ? "opacity-100" : "opacity-0"}`}
-      >
-        <input
-          type="text"
-          placeholder="What service are you looking for today?"
-          className="w-[30rem] py-2.5 px-4 border"
-          value={searchData}
-          onChange={(e) => setSearchData(e.target.value)}
-        />
-        <button
-          className="bg-gray-900 py-1.5 text-white w-16 flex justify-center items-center"
-          onClick={() => {
-            setSearchData("");
-            router.push(`/search?q=${searchData}`);
-          }}
+    <>
+      {isLoaded && (
+        <nav
+          className={`w-full px-24 flex justify-between items-center py-6  top-0 z-30 transition-all duration-300 ${
+            navFixed || userInfo
+              ? "fixed bg-white border-b border-gray-200"
+              : "absolute bg-transparent border-transparent"
+          }`}
         >
-          <IoSearchOutline className="fill-white text-white h-6 w-6" />
-        </button>
-      </div>
-      {!userInfo ? (
-        <ul className="flex gap-10 items-center">
-          {links.map(({ linkName, handler, type }) => {
-            return (
-              <li
-                key={linkName}
-                className={`${
-                  navFixed ? "text-black" : "text-white"
-                } font-medium`}
-              >
-                {type === "link" && (
-                  <Link href={handler as string}>{linkName}</Link>
-                )}
-                {type === "button" && (
-                  <button onClick={handler as () => {}}>{linkName}</button>
-                )}
-                {type === "button2" && (
-                  <button
-                    onClick={handler as () => {}}
-                    className={`border   text-md font-semibold py-1 px-3 rounded-sm ${
-                      navFixed
-                        ? "border-[#1DBF73] text-[#1DBF73]"
-                        : "border-white text-white"
-                    } hover:bg-[#1DBF73] hover:text-white hover:border-[#1DBF73] transition-all duration-500`}
+          <div>
+            <Link href="/">
+              <FiverrLogo
+                fillColor={!navFixed && !userInfo ? "#ffffff" : "#404145"}
+              />
+            </Link>
+          </div>
+          <div
+            className={`flex ${
+              navFixed || userInfo ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <input
+              type="text"
+              placeholder="What service are you looking for today?"
+              className="w-[30rem] py-2.5 px-4 border"
+              value={searchData}
+              onChange={(e) => setSearchData(e.target.value)}
+            />
+            <button
+              className="bg-gray-900 py-1.5 text-white w-16 flex justify-center items-center"
+              onClick={() => {
+                setSearchData("");
+                router.push(`/search?q=${searchData}`);
+              }}
+            >
+              <IoSearchOutline className="fill-white text-white h-6 w-6" />
+            </button>
+          </div>
+          {!userInfo ? (
+            <ul className="flex gap-10 items-center">
+              {links.map(({ linkName, handler, type }) => {
+                return (
+                  <li
+                    key={linkName}
+                    className={`${
+                      navFixed ? "text-black" : "text-white"
+                    } font-medium`}
                   >
-                    {linkName}
-                  </button>
+                    {type === "link" && (
+                      <Link href={handler as string}>{linkName}</Link>
+                    )}
+                    {type === "button" && (
+                      <button onClick={handler as () => {}}>{linkName}</button>
+                    )}
+                    {type === "button2" && (
+                      <button
+                        onClick={handler as () => {}}
+                        className={`border   text-md font-semibold py-1 px-3 rounded-sm ${
+                          navFixed
+                            ? "border-[#1DBF73] text-[#1DBF73]"
+                            : "border-white text-white"
+                        } hover:bg-[#1DBF73] hover:text-white hover:border-[#1DBF73] transition-all duration-500`}
+                      >
+                        {linkName}
+                      </button>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          ) : (
+            <ul className="flex gap-10 items-center">
+              <li
+                className="cursor-pointer text-[#1DBF73] font-medium"
+                onClick={handleOrdersNavigate}
+              >
+                Orders
+              </li>
+
+              {isSeller ? (
+                <li
+                  className="cursor-pointer font-medium"
+                  onClick={handleModeSwitch}
+                >
+                  Switch To Buyer
+                </li>
+              ) : (
+                <li
+                  className="cursor-pointer font-medium"
+                  onClick={handleModeSwitch}
+                >
+                  Switch To Seller
+                </li>
+              )}
+              <li
+                className="cursor-pointer"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsContextMenuVisible(true);
+                }}
+                title="Profile"
+              >
+                {userInfo?.imageName ? (
+                  <Image
+                    src={userInfo.imageName}
+                    alt="Profile"
+                    width={40}
+                    height={40}
+                    className="rounded-full"
+                  />
+                ) : (
+                  <div className="bg-purple-500 h-10 w-10 flex items-center justify-center rounded-full relative">
+                    <span className="text-xl text-white">
+                      {userInfo.email[0].toUpperCase()}
+                    </span>
+                  </div>
                 )}
               </li>
-            );
-          })}
-        </ul>
-      ) : (
-        <ul className="flex gap-10 items-center">
-          <li
-            className="cursor-pointer text-[#1DBF73] font-medium"
-            onClick={handleOrdersNavigate}
-          >
-            Orders
-          </li>
-
-          {isSeller ? (
-            <li
-              className="cursor-pointer font-medium"
-              onClick={handleModeSwitch}
-            >
-              Switch To Buyer
-            </li>
-          ) : (
-            <li
-              className="cursor-pointer font-medium"
-              onClick={handleModeSwitch}
-            >
-              Switch To Seller
-            </li>
+            </ul>
           )}
-          <li
-            className="cursor-pointer"
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsContextMenuVisible(true);
-            }}
-            title="Profile"
-          >
-            <Image
-              src="/kishan.jpeg"
-              alt="Profile"
-              width={40}
-              height={40}
-              className="rounded-full"
-            />
-          </li>
-        </ul>
+          {isContextMenuVisible && <ContextMenu data={ContextMenuData} />}
+        </nav>
       )}
-      {isContextMenuVisible && <ContextMenu data={ContextMenuData} />}
-    </nav>
+    </>
   );
 }
 
