@@ -70,7 +70,7 @@ function Orders() {
 
                   <td className="px-6 py-4 ">
                     <Link
-                      href={`/seller/gigs/${order.id}`}
+                      href={`/buyer/orders/messages/${order.id}`}
                       className="font-medium text-blue-600  hover:underline"
                     >
                       Send

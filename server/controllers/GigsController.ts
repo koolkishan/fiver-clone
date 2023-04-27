@@ -265,6 +265,7 @@ const checkOrder = async (userId, gigId) => {
       where: {
         buyerId: parseInt(userId),
         gigId: parseInt(gigId),
+        isCompleted: true,
       },
     });
     return hasUserOrderedGig;

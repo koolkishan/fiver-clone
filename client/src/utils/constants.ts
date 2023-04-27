@@ -5,6 +5,7 @@ export const IMAGES_URL = `${HOST}/uploads`;
 export const AUTH_ROUTES = `${API_URL}/auth`;
 export const GIG_ROUTES = `${API_URL}/gigs`;
 export const ORDERS_ROUTES = `${API_URL}/orders`;
+export const MESSAGES_ROUTES = `${API_URL}/messages`;
 
 export const LOGIN_ROUTE = `${AUTH_ROUTES}/login`;
 export const SIGNUP_ROUTE = `${AUTH_ROUTES}/signup`;
@@ -24,3 +25,6 @@ export const ADD_REVIEW = `${GIG_ROUTES}/add-review`;
 export const CREATE_ORDER = `${ORDERS_ROUTES}/create`;
 export const ORDER_SUCCESS_ROUTE = `${ORDERS_ROUTES}/success`;
 export const GET_BUYER_ORDERS_ROUTE = `${ORDERS_ROUTES}/get-buyer-orders`;
+
+export const GET_MESSAGES = `${MESSAGES_ROUTES}/get-messages`;
+export const ADD_MESSAGE = `${MESSAGES_ROUTES}/add-message`;
