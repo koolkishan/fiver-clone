@@ -18,6 +18,8 @@ export const GET_USER_GIGS_ROUTE = `${GIG_ROUTES}/get-user-gigs`;
 export const GET_GIG_DATA = `${GIG_ROUTES}/get-gig-data`;
 export const EDIT_GIG_DATA = `${GIG_ROUTES}/edit-gig`;
 export const SEARCH_GIGS_ROUTE = `${GIG_ROUTES}/search-gigs`;
+export const CHECK_USER_ORDERED_GIG_ROUTE = `${GIG_ROUTES}/check-gig-order`;
+export const ADD_REVIEW = `${GIG_ROUTES}/add-review`;
 
 export const CREATE_ORDER = `${ORDERS_ROUTES}/create`;
 export const ORDER_SUCCESS_ROUTE = `${ORDERS_ROUTES}/success`;

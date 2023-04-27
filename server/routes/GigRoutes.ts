@@ -1,14 +1,15 @@
 import { Router } from "express";
 import {
   addGig,
+  checkGigOrder,
   editGig,
   getGigData,
   getUserAuthGigs,
   searchGigs,
+  addReview,
 } from "../controllers/GigsController";
 import multer from "multer";
 import { verifyToken } from "../middlewares/AuthMiddleware";
-import { addReview } from "../controllers/OrdersControllers";
 
 const upload = multer({ dest: "uploads/" });
 
@@ -20,3 +21,5 @@ gigRoutes.get("/get-gig-data/:gigId", getGigData);
 gigRoutes.put("/edit-gig/:gigId", verifyToken, upload.array("images"), editGig);
 gigRoutes.get("/search-gigs", searchGigs);
 gigRoutes.post("/add-review", verifyToken, addReview);
+gigRoutes.get("/check-gig-order/:gigId", verifyToken, checkGigOrder);
+gigRoutes.post("/add-review/:gigId", verifyToken, addReview);

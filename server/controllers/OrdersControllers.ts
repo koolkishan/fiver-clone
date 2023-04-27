@@ -84,10 +84,3 @@ export const getBuyerOrders = async (
     return res.status(500).send("Internal Server Error");
   }
 };
-
-export const addReview = (req: Request, res: Response, next: NextFunction) => {
-  try {
-  } catch (err) {
-    console.log(err);
-  }
-};
