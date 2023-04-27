@@ -25,7 +25,6 @@ function Onboarding() {
   });
 
   useEffect(() => {
-    console.log({ userInfo });
     if (userInfo) {
       setIsLoaded(true);
     }
@@ -67,7 +66,7 @@ function Onboarding() {
           });
           imageName = img;
         }
-        console.log("here before disparch");
+
         dispatch({
           type: reducerCases.SET_USER,
           userInfo: {
@@ -76,7 +75,7 @@ function Onboarding() {
             image: imageName.length ? HOST + "/" + imageName : false,
           },
         });
-        console.log("here after disparch");
+
         router.push("/");
       }
     } catch (err) {

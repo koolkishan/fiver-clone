@@ -5,7 +5,7 @@ import { BsCheckLg } from "react-icons/bs";
 import { useStateProvider } from "@/context/StateContext";
 import { useRouter } from "next/router";
 function Pricing() {
-  const [{ gigData }, dispatch] = useStateProvider();
+  const [{ gigData, userInfo }, dispatch] = useStateProvider();
   const router = useRouter();
 
   return (
@@ -40,19 +40,31 @@ function Pricing() {
                 </li>
               ))}
             </ul>
-            <button
-              className="flex items-center bg-[#1DBF73] text-white py-2 justify-center font-bold text-lg relative rounded"
-              onClick={() => router.push(`/checkout?gigId=${gigData.id}`)}
-            >
-              <span>Continue</span>
-              <BiRightArrowAlt className="text-2xl absolute right-4" />
-            </button>
+            {gigData.userId === userInfo.id ? (
+              <button
+                className="flex items-center bg-[#1DBF73] text-white py-2 justify-center font-bold text-lg relative rounded"
+                onClick={() => router.push(`/seller/gigs/${gigData.id}`)}
+              >
+                <span>Edit</span>
+                <BiRightArrowAlt className="text-2xl absolute right-4" />
+              </button>
+            ) : (
+              <button
+                className="flex items-center bg-[#1DBF73] text-white py-2 justify-center font-bold text-lg relative rounded"
+                onClick={() => router.push(`/checkout?gigId=${gigData.id}`)}
+              >
+                <span>Continue</span>
+                <BiRightArrowAlt className="text-2xl absolute right-4" />
+              </button>
+            )}
           </div>
-          <div className="flex items-center justify-center mt-5">
-            <button className=" w-5/6 hover:bg-[#74767e] py-1 border border-[#74767e] px-5 text-[#6c6d75] hover:text-white transition-all duration-300 text-lg rounded font-bold">
-              Contact Me
-            </button>
-          </div>
+          {gigData.userId !== userInfo.id && (
+            <div className="flex items-center justify-center mt-5">
+              <button className=" w-5/6 hover:bg-[#74767e] py-1 border border-[#74767e] px-5 text-[#6c6d75] hover:text-white transition-all duration-300 text-lg rounded font-bold">
+                Contact Me
+              </button>
+            </div>
+          )}
         </div>
       )}
     </>

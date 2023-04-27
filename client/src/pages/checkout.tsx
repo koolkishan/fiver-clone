@@ -14,7 +14,6 @@ function Checkout() {
   const router = useRouter();
   const { gigId } = router.query;
   useEffect(() => {
-    console.log(gigId);
     const createOrderIntent = async () => {
       const { data } = await axios.post(
         CREATE_ORDER,

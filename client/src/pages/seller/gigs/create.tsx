@@ -44,15 +44,6 @@ function CreateGigs() {
   const addGig = async () => {
     const { category, description, price, revisions, time, title, shortDesc } =
       data;
-    console.log({
-      category,
-      description,
-      price,
-      revisions,
-      time,
-      title,
-      shortDesc,
-    });
     if (
       category &&
       description &&

@@ -58,7 +58,6 @@ function AuthWrapper({ type }: { type: "signup" | "login" }) {
       // dispatch(closeAuthModal());
     };
     const handleAuthModalClick = (e: Event) => {
-      // console.log("here");
       // e.stopPropagation();
     };
     authModal?.addEventListener("click", handleAuthModalClick);

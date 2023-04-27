@@ -32,7 +32,6 @@ app.listen(port, () => {
 });
 
 process.once("SIGUSR2", function () {
-  console.log("here");
   process.kill(process.pid, "SIGUSR2");
 });
 

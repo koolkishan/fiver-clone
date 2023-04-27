@@ -13,7 +13,6 @@ function Index() {
         } = await axios.get(GET_USER_GIGS_ROUTE, {
           withCredentials: true,
         });
-        console.log({ gigsData });
         setGigs(gigsData);
       } catch (err) {
         console.log(err);

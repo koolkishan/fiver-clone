@@ -19,7 +19,7 @@ function Navbar() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [{ showLoginModal, showSignupModal, isSeller, userInfo }, dispatch] =
     useStateProvider();
-  console.log({ userInfo });
+
   const handleLogin = () => {
     if (showSignupModal) {
       dispatch({
@@ -69,7 +69,7 @@ function Navbar() {
 
   const handleOrdersNavigate = () => {
     if (isSeller) router.push("/seller/orders");
-    router.push("/client/orders");
+    router.push("/buyer/orders");
   };
 
   const handleModeSwitch = () => {
@@ -155,7 +155,7 @@ function Navbar() {
       },
     },
   ];
-  // console.log({ user });
+
   return (
     <>
       {isLoaded && (

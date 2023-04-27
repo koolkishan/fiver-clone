@@ -62,7 +62,7 @@ export const addGig = async (
     }
     return res.status(400).send("All properties should be required.");
   } catch (err) {
-    console.log({ err });
+    console.log(err);
     return res.status(500).send("Internal Server Error");
   }
 };
@@ -79,12 +79,11 @@ export const getUserAuthGigs = async (
         where: { id: req.userId },
         include: { gigs: true },
       });
-      console.log({ user });
       return res.status(200).json({ gigs: user?.gigs ?? [] });
     }
     return res.status(400).send("UserId should be required.");
   } catch (err) {
-    console.log({ err });
+    console.log(err);
     return res.status(500).send("Internal Server Error");
   }
 };

@@ -12,14 +12,12 @@ export const createOrder = async (
   next: NextFunction
 ) => {
   try {
-    console.log(req.body);
     if (req.body.gigId) {
       const { gigId } = req.body;
       const prisma = new PrismaClient();
       const gig = await prisma.gigs.findUnique({
         where: { id: parseInt(gigId) },
       });
-      console.log({ gig });
       const paymentIntent = await stripe.paymentIntents.create({
         amount: gig?.price! * 100,
         currency: "usd",
@@ -43,6 +41,7 @@ export const createOrder = async (
     }
   } catch (err) {
     console.log(err);
+    return res.status(500).send("Internal Server Error");
   }
 };
 
@@ -59,6 +58,35 @@ export const confirmOrder = async (
         data: { isCompleted: true },
       });
     }
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send("Internal Server Error");
+  }
+};
+
+export const getBuyerOrders = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    if (req.userId) {
+      const prisma = new PrismaClient();
+      const orders = await prisma.orders.findMany({
+        where: { buyerId: req.userId, isCompleted: true },
+        include: { gig: true },
+      });
+      return res.status(200).json({ orders });
+    }
+    return res.status(400).send("User id is required.");
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send("Internal Server Error");
+  }
+};
+
+export const addReview = (req: Request, res: Response, next: NextFunction) => {
+  try {
   } catch (err) {
     console.log(err);
   }
