@@ -12,9 +12,15 @@ function Logout() {
   useEffect(() => {
     removeCookie("jwt");
     dispatch({ type: reducerCases.SET_USER, userInfo: undefined });
-    router.push("/");
+    window.location.href = window.location.origin;
   }, [removeCookie, dispatch, router]);
-  return <div>Logout</div>;
+  return (
+    <div className="h-[80vh] flex items-center px-20 pt-20 flex-col">
+      <h1 className="text-4xl text-center">
+        Logout successful. You are being redirected to the main page.
+      </h1>
+    </div>
+  );
 }
 
 export default Logout;
