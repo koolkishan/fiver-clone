@@ -4,14 +4,13 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "http",
-        hostname: "localhost",
-        port: "8747",
+        protocol: "https",
+        hostname: "https://fiver-clone-server-r4nu9.kinsta.app",
       },
     ],
   },
   env: {
-    SERVER_URL: "http://localhost:8747",
+    SERVER_URL: "https://fiver-clone-server-r4nu9.kinsta.app",
   },
 };
 
