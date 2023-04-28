@@ -229,6 +229,14 @@ function Navbar() {
             </ul>
           ) : (
             <ul className="flex gap-10 items-center">
+              {isSeller && (
+                <li
+                  className="cursor-pointer text-[#1DBF73] font-medium"
+                  onClick={() => router.push("/seller/gigs/create")}
+                >
+                  Create Gig
+                </li>
+              )}
               <li
                 className="cursor-pointer text-[#1DBF73] font-medium"
                 onClick={handleOrdersNavigate}

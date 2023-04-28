@@ -6,11 +6,13 @@ import cookieParser from "cookie-parser";
 import { gigRoutes } from "./routes/GigRoutes";
 import { orderRoutes } from "./routes/OrderRoutes";
 import { messageRoutes } from "./routes/MessageRoutes";
+import { dashboardRoutes } from "./routes/DashboardRoutes";
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT;
+
 app.use(
   cors({
     origin: ["http://localhost:3000"],
@@ -18,6 +20,7 @@ app.use(
     credentials: true,
   })
 );
+
 app.use("/uploads", express.static("uploads"));
 app.use("/uploads/profiles", express.static("uploads/profiles"));
 
@@ -28,16 +31,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/gigs", gigRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/messages", messageRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
-});
-
-process.once("SIGUSR2", function () {
-  process.kill(process.pid, "SIGUSR2");
-});
-
-process.on("SIGINT", function () {
-  // this is only called on ctrl+c, not restart
-  process.kill(process.pid, "SIGINT");
 });

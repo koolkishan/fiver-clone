@@ -84,3 +84,35 @@ export const getBuyerOrders = async (
     return res.status(500).send("Internal Server Error");
   }
 };
+
+export const getSellerOrders = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    if (req.userId) {
+      const prisma = new PrismaClient();
+      const orders = await prisma.orders.findMany({
+        where: {
+          gig: {
+            createdBy: {
+              id: parseInt(req.userId),
+            },
+          },
+          isCompleted: true,
+        },
+        include: {
+          gig: true,
+          buyer: true,
+        },
+      });
+      console.log({ orders });
+      return res.status(200).json({ orders });
+    }
+    return res.status(400).send("User id is required.");
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send("Internal Server Error");
+  }
+};

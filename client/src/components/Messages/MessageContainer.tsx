@@ -9,15 +9,16 @@ function MessageContainer() {
   const router = useRouter();
   const { orderId } = router.query;
   const [{ userInfo }] = useStateProvider();
+  const [recipentId, setRecipentId] = useState(undefined);
   useEffect(() => {
     const getMessages = async () => {
       const {
-        data: { messages: dataMessages },
+        data: { messages: dataMessages, recipentId: recipent },
       } = await axios.get(`${GET_MESSAGES}/${orderId}`, {
         withCredentials: true,
       });
       setMessages(dataMessages);
-      console.log({ dataMessages });
+      setRecipentId(recipent);
     };
     if (orderId && userInfo) {
       getMessages();
@@ -42,7 +43,7 @@ function MessageContainer() {
     if (messageText.length) {
       const response = await axios.post(
         `${ADD_MESSAGE}/${orderId}`,
-        { message: messageText, recipentId: 34 },
+        { message: messageText, recipentId },
         { withCredentials: true }
       );
       if (response.status === 201) {
