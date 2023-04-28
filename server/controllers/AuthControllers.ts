@@ -115,6 +115,7 @@ export const getUserInfo = async (
           username: user?.username,
           fullName: user?.fullName,
           description: user?.description,
+          isProfileSet: user?.isProfileInfoSet,
         },
       });
     }

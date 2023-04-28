@@ -247,12 +247,12 @@ const createSearchQuery = (searchTerm, category) => {
   };
   if (searchTerm) {
     query.where.OR.push({
-      title: { contains: searchTerm },
+      title: { contains: searchTerm, mode: "insensitive" },
     });
   }
   if (category) {
     query.where.OR.push({
-      category: { contains: category },
+      category: { contains: category, mode: "insensitive" },
     });
   }
   return query;

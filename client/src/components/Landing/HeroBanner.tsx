@@ -95,25 +95,25 @@ function HomeBanner() {
           Popular:
           <ul className="flex gap-5">
             <li
-              className="text-sm py-1 px-3 border rounded-full hover:bg-white hover:text-black transition-all duration-300	"
+              className="text-sm py-1 px-3 border rounded-full hover:bg-white hover:text-black transition-all duration-300	cursor-pointer"
               onClick={() => router.push("/search?q=website design")}
             >
               Website Design
             </li>
             <li
-              className="text-sm py-1 px-3 border rounded-full hover:bg-white hover:text-black transition-all duration-300	"
+              className="text-sm py-1 px-3 border rounded-full hover:bg-white hover:text-black transition-all duration-300	cursor-pointer"
               onClick={() => router.push("/search?q=wordpress")}
             >
               Wordpress
             </li>
             <li
-              className="text-sm py-1 px-3 border rounded-full hover:bg-white hover:text-black transition-all duration-300	"
+              className="text-sm py-1 px-3 border rounded-full hover:bg-white hover:text-black transition-all duration-300	cursor-pointer"
               onClick={() => router.push("/search?q=logo design")}
             >
               Logo Design
             </li>
             <li
-              className="text-sm py-1 px-3 border rounded-full hover:bg-white hover:text-black transition-all duration-300	"
+              className="text-sm py-1 px-3 border rounded-full hover:bg-white hover:text-black transition-all duration-300	cursor-pointer"
               onClick={() => router.push("/search?q=ai services")}
             >
               AI Services
