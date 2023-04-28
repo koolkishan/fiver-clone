@@ -1,12 +1,12 @@
 import { Router } from "express";
 
-import { verifyToken } from "../middlewares/AuthMiddleware";
+import { verifyToken } from "../middlewares/AuthMiddleware.js";
 import {
   confirmOrder,
   createOrder,
   getBuyerOrders,
   getSellerOrders,
-} from "../controllers/OrdersControllers";
+} from "../controllers/OrdersControllers.js";
 
 export const orderRoutes = Router();
 

@@ -1,12 +1,6 @@
-// @ts-nocheck
 import { PrismaClient } from "@prisma/client";
-import { NextFunction, Request, Response } from "express";
 
-export const getSellerData = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const getSellerData = async (req, res, next) => {
   try {
     if (req.userId) {
       const prisma = new PrismaClient();

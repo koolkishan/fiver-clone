@@ -7,9 +7,9 @@ import {
   getUserAuthGigs,
   searchGigs,
   addReview,
-} from "../controllers/GigsController";
+} from "../controllers/GigsController.js";
 import multer from "multer";
-import { verifyToken } from "../middlewares/AuthMiddleware";
+import { verifyToken } from "../middlewares/AuthMiddleware.js";
 
 const upload = multer({ dest: "uploads/" });
 

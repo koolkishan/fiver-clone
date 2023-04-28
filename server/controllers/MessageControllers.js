@@ -1,12 +1,6 @@
-// @ts-nocheck
 import { PrismaClient } from "@prisma/client";
-import { NextFunction, Request, Response } from "express";
 
-export const addMessage = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const addMessage = async (req, res, next) => {
   try {
     const prisma = new PrismaClient();
 
@@ -48,11 +42,7 @@ export const addMessage = async (
   }
 };
 
-export const getMessages = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const getMessages = async (req, res, next) => {
   try {
     if (req.params.orderId && req.userId) {
       const prisma = new PrismaClient();
@@ -95,11 +85,7 @@ export const getMessages = async (
   }
 };
 
-export const getUnreadMessages = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const getUnreadMessages = async (req, res, next) => {
   try {
     if (req.userId) {
       const prisma = new PrismaClient();
@@ -121,11 +107,7 @@ export const getUnreadMessages = async (
   }
 };
 
-export const markAsRead = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const markAsRead = async (req, res, next) => {
   try {
     if (req.userId && req.params.messageId) {
       const prisma = new PrismaClient();

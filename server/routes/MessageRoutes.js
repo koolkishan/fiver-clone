@@ -1,12 +1,12 @@
 import { Router } from "express";
 
-import { verifyToken } from "../middlewares/AuthMiddleware";
+import { verifyToken } from "../middlewares/AuthMiddleware.js";
 import {
   addMessage,
   getMessages,
   getUnreadMessages,
   markAsRead,
-} from "../controllers/MessageControllers";
+} from "../controllers/MessageControllers.js";
 
 export const messageRoutes = Router();
 

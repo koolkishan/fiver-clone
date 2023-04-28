@@ -1,16 +1,11 @@
-// @ts-nocheck
 import { PrismaClient } from "@prisma/client";
-import { NextFunction, Request, Response } from "express";
+import Stripe from "stripe";
 
-const stripe = require("stripe")(
+const stripe = new Stripe(
   "sk_test_51DpVXWGc9EcLzRLBNKni929hB026lACv6toMfjH1FPtIXfYgIrhXzjolcYzDDl2VwtvmyPF20PJ1JaMUCTNoEwDN00FN8hrRZL"
 );
 
-export const createOrder = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const createOrder = async (req, res, next) => {
   try {
     if (req.body.gigId) {
       const { gigId } = req.body;
@@ -19,7 +14,7 @@ export const createOrder = async (
         where: { id: parseInt(gigId) },
       });
       const paymentIntent = await stripe.paymentIntents.create({
-        amount: gig?.price! * 100,
+        amount: gig?.price * 100,
         currency: "usd",
         automatic_payment_methods: {
           enabled: true,
@@ -28,7 +23,7 @@ export const createOrder = async (
       await prisma.orders.create({
         data: {
           paymentIntent: paymentIntent.id,
-          price: gig?.price!,
+          price: gig?.price,
           buyer: { connect: { id: req?.userId } },
           gig: { connect: { id: gig?.id } },
         },
@@ -45,11 +40,7 @@ export const createOrder = async (
   }
 };
 
-export const confirmOrder = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const confirmOrder = async (req, res, next) => {
   try {
     if (req.body.paymentIntent) {
       const prisma = new PrismaClient();
@@ -64,11 +55,7 @@ export const confirmOrder = async (
   }
 };
 
-export const getBuyerOrders = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const getBuyerOrders = async (req, res, next) => {
   try {
     if (req.userId) {
       const prisma = new PrismaClient();
@@ -85,11 +72,7 @@ export const getBuyerOrders = async (
   }
 };
 
-export const getSellerOrders = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const getSellerOrders = async (req, res, next) => {
   try {
     if (req.userId) {
       const prisma = new PrismaClient();

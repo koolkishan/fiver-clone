@@ -1,18 +1,13 @@
-// @ts-nocheck
 import { PrismaClient } from "@prisma/client";
-import { NextFunction, Request, Response } from "express";
+
 import { existsSync, renameSync, unlinkSync } from "fs";
 
-export const addGig = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const addGig = async (req, res, next) => {
   try {
     if (req.files) {
       const fileKeys = Object.keys(req.files);
       const fileNames = [];
-      fileKeys.forEach((file: any) => {
+      fileKeys.forEach((file) => {
         const date = Date.now();
         renameSync(
           req.files[file].path,
@@ -30,15 +25,6 @@ export const addGig = async (
           revisions,
           time,
           shortDesc,
-        }: {
-          title: string;
-          description: string;
-          category: string;
-          features: string[];
-          price: number;
-          revisions: number;
-          time: number;
-          shortDesc: string;
         } = req.query;
         const prisma = new PrismaClient();
 
@@ -67,11 +53,7 @@ export const addGig = async (
   }
 };
 
-export const getUserAuthGigs = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const getUserAuthGigs = async (req, res, next) => {
   try {
     if (req.userId) {
       const prisma = new PrismaClient();
@@ -88,11 +70,7 @@ export const getUserAuthGigs = async (
   }
 };
 
-export const getGigData = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const getGigData = async (req, res, next) => {
   try {
     if (req.params.gigId) {
       const prisma = new PrismaClient();
@@ -141,16 +119,12 @@ export const getGigData = async (
   }
 };
 
-export const editGig = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const editGig = async (req, res, next) => {
   try {
     if (req.files) {
       const fileKeys = Object.keys(req.files);
       const fileNames = [];
-      fileKeys.forEach((file: any) => {
+      fileKeys.forEach((file) => {
         const date = Date.now();
         renameSync(
           req.files[file].path,
@@ -168,15 +142,6 @@ export const editGig = async (
           revisions,
           time,
           shortDesc,
-        }: {
-          title: string;
-          description: string;
-          category: string;
-          features: string[];
-          price: number;
-          revisions: number;
-          time: number;
-          shortDesc: string;
         } = req.query;
         const prisma = new PrismaClient();
         const oldData = await prisma.gigs.findUnique({
@@ -211,11 +176,7 @@ export const editGig = async (
   }
 };
 
-export const searchGigs = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const searchGigs = async (req, res, next) => {
   try {
     if (req.query.searchTerm || req.query.category) {
       const prisma = new PrismaClient();
@@ -274,11 +235,7 @@ const checkOrder = async (userId, gigId) => {
   }
 };
 
-export const checkGigOrder = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const checkGigOrder = async (req, res, next) => {
   try {
     if (req.userId && req.params.gigId) {
       const hasUserOrderedGig = await checkOrder(req.userId, req.params.gigId);
@@ -293,11 +250,7 @@ export const checkGigOrder = async (
   }
 };
 
-export const addReview = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const addReview = async (req, res, next) => {
   try {
     if (req.userId && req.params.gigId) {
       if (await checkOrder(req.userId, req.params.gigId)) {

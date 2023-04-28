@@ -1,12 +1,12 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import { authRoutes } from "./routes/AuthRoutes";
+import authRoutes from "./routes/AuthRoutes.js";
 import cookieParser from "cookie-parser";
-import { gigRoutes } from "./routes/GigRoutes";
-import { orderRoutes } from "./routes/OrderRoutes";
-import { messageRoutes } from "./routes/MessageRoutes";
-import { dashboardRoutes } from "./routes/DashboardRoutes";
+import { gigRoutes } from "./routes/GigRoutes.js";
+import { orderRoutes } from "./routes/OrderRoutes.js";
+import { messageRoutes } from "./routes/MessageRoutes.js";
+import { dashboardRoutes } from "./routes/DashboardRoutes.js";
 
 dotenv.config();
 

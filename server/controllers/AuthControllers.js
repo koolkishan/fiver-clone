@@ -1,28 +1,22 @@
-// @ts-nocheck
-import { NextFunction, Response, Request } from "express";
 import { Prisma, PrismaClient } from "@prisma/client";
 import { genSalt, hash, compare } from "bcrypt";
-import { sign } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { renameSync } from "fs";
 
-const generatePassword = async (password: string) => {
+const generatePassword = async (password) => {
   const salt = await genSalt();
   return await hash(password, salt);
 };
 
 const maxAge = 3 * 24 * 60 * 60;
-const createToken = (email: string, userId: number) => {
+const createToken = (email, userId) => {
   // @ts-ignore
-  return sign({ email, userId }, process.env.JWT_KEY, {
+  return jwt.sign({ email, userId }, process.env.JWT_KEY, {
     expiresIn: maxAge,
   });
 };
 
-export const signup = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const signup = async (req, res, next) => {
   try {
     const prisma = new PrismaClient();
     const { email, password } = req.body;
@@ -56,11 +50,7 @@ export const signup = async (
   }
 };
 
-export const login = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const login = async (req, res, next) => {
   try {
     const prisma = new PrismaClient();
     const { email, password } = req.body;
@@ -94,11 +84,7 @@ export const login = async (
   }
 };
 
-export const getUserInfo = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const getUserInfo = async (req, res, next) => {
   try {
     if (req?.userId) {
       const prisma = new PrismaClient();
@@ -124,11 +110,7 @@ export const getUserInfo = async (
   }
 };
 
-export const setUserInfo = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const setUserInfo = async (req, res, next) => {
   try {
     if (req?.userId) {
       const { userName, fullName, description } = req.body;
@@ -168,11 +150,7 @@ export const setUserInfo = async (
   }
 };
 
-export const setUserImage = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const setUserImage = async (req, res, next) => {
   try {
     if (req.file) {
       if (req?.userId) {

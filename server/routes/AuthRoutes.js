@@ -5,11 +5,11 @@ import {
   setUserImage,
   setUserInfo,
   signup,
-} from "../controllers/AuthControllers";
-import { verifyToken } from "../middlewares/AuthMiddleware";
+} from "../controllers/AuthControllers.js";
+import { verifyToken } from "../middlewares/AuthMiddleware.js";
 import multer from "multer";
 
-export const authRoutes = Router();
+const authRoutes = Router();
 const upload = multer({ dest: "uploads/profiles/" });
 
 authRoutes.post("/signup", signup);
@@ -23,3 +23,5 @@ authRoutes.post(
   upload.single("images"),
   setUserImage
 );
+
+export default authRoutes;
