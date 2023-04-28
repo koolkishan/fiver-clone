@@ -107,7 +107,6 @@ export const getSellerOrders = async (
           buyer: true,
         },
       });
-      console.log({ orders });
       return res.status(200).json({ orders });
     }
     return res.status(400).send("User id is required.");

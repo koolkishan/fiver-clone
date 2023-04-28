@@ -13,7 +13,6 @@ function Orders() {
         const {
           data: { orders },
         } = await axios.get(GET_SELLER_ORDERS_ROUTE, { withCredentials: true });
-        console.log({ orders });
         setOrders(orders);
       } catch (err) {
         console.error(err);

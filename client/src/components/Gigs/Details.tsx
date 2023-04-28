@@ -54,7 +54,6 @@ function Details() {
               )}
             </div>
             <div className="flex gap-2 items-center">
-              {console.log({ gigData })}
               <h4 className="text-[#27272a] font-bold">
                 {gigData.createdBy.fullName}
               </h4>
@@ -79,7 +78,6 @@ function Details() {
           </div>
           <div className="flex flex-col gap-4">
             <div className="max-h-[1000px] max-w-[1000px] overflow-hidden">
-              {console.log({ currentImage }, HOST + "/uploads/" + currentImage)}
               <Image
                 src={HOST + "/uploads/" + currentImage}
                 alt="Gig"

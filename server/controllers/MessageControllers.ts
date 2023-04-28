@@ -16,7 +16,6 @@ export const addMessage = async (
       req.params.orderId &&
       req.body.message
     ) {
-      console.log({ userId: req.userId, recipent: req.body.recipentId });
       const message = await prisma.message.create({
         data: {
           sender: {
@@ -38,7 +37,6 @@ export const addMessage = async (
           text: req.body.message,
         },
       });
-      console.log({ message });
       return res.status(201).json({ message });
     }
     return res
@@ -88,7 +86,6 @@ export const getMessages = async (
       } else if (order?.gig.userId === req.userId) {
         recipentId = order.buyerId;
       }
-      console.log({ order });
       return res.status(200).json({ messages, recipentId });
     }
     return res.status(400).send("Order id is required.");
@@ -115,7 +112,6 @@ export const getUnreadMessages = async (
           sender: true,
         },
       });
-      console.log(messages);
       return res.status(200).json({ messages });
     }
     return res.status(400).send("User id is required.");

@@ -93,14 +93,6 @@ export const getSellerData = async (
           price: true,
         },
       });
-
-      console.log("Total revenue:", revenue);
-      console.log("Daily revenue:", dailyRevenue);
-      console.log("Monthly revenue:", monthlyRevenue);
-
-      console.log({ unreadMessages });
-      console.log({ orders });
-      console.log({ gigs });
       return res.status(200).json({
         dashboardData: {
           orders,

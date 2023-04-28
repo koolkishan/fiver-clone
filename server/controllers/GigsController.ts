@@ -314,8 +314,6 @@ export const addReview = async (
               reviewer: true,
             },
           });
-          console.log({ newReview });
-
           return res.status(201).json({ newReview });
         }
         return res.status(400).send("ReviewText and Rating are required.");

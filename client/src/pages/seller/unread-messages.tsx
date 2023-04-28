@@ -14,7 +14,6 @@ function UnreadMessages() {
         data: { messages: unreadMessages },
       } = await axios.get(GET_UNREAD_MESSAGES, { withCredentials: true });
       setMessages(unreadMessages);
-      console.log({ unreadMessages });
     };
     if (userInfo) {
       getUnreadMessages();
@@ -33,7 +32,6 @@ function UnreadMessages() {
       clonedMessages.splice(index, 1);
       setMessages(clonedMessages);
     }
-    console.log({ response });
   };
 
   return (

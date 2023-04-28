@@ -39,7 +39,6 @@ function Gig() {
         type: reducerCases.HAS_USER_ORDERED_GIG,
         hasOrdered: hasUserOrderedGig,
       });
-      console.log({ hasUserOrderedGig });
     };
     if (userInfo) {
       checkGigOrdered();

@@ -15,10 +15,8 @@ function SearchGridItem({ gig }: any) {
     reviews?.forEach((review: { rating: number }) => {
       rating += review.rating;
     });
-    console.log((rating / reviews.length).toFixed(1), "ratings");
     return (rating / reviews.length).toFixed(1);
   };
-  console.log({ gig }, "tada");
   return (
     <div
       className="max-w-[300px] flex flex-col gap-2 p-1 cursor-pointer mb-8"
