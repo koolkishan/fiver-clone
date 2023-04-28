@@ -75,7 +75,7 @@ function Navbar() {
   const handleModeSwitch = () => {
     if (isSeller) {
       dispatch({ type: reducerCases.SWITCH_MODE });
-      router.push("/buyer");
+      router.push("/buyer/orders");
     } else {
       dispatch({ type: reducerCases.SWITCH_MODE });
       router.push("/seller");

@@ -41,7 +41,7 @@ function AuthWrapper({ type }: { type: "signup" | "login" }) {
 
         if (user) {
           dispatch({ type: reducerCases.SET_USER, userInfo: user });
-          if (type === "signup") router.push("/onboarding");
+          window.location.reload();
         }
       }
     } catch (err) {
