@@ -33,6 +33,7 @@ export const signup = async (req, res, next) => {
           maxAge: maxAge * 1000,
           sameSite: "none",
           secure: true,
+          domain: process.env.ORIGIN,
         })
         .status(201)
         .json({ user: { id: user?.id, email: user?.email } });
@@ -77,6 +78,7 @@ export const login = async (req, res, next) => {
           maxAge: maxAge * 1000,
           sameSite: "none",
           secure: true,
+          domain: process.env.ORIGIN,
         })
         .status(200)
         .json({ user: { id: user?.id, email: user?.email } });
