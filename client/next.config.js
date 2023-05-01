@@ -5,7 +5,9 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "https://fiver-clone-node-sbhvt.kinsta.app",
+        hostname: "**",
+        port: "",
+        pathname: "**",
       },
     ],
   },
