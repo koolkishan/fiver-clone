@@ -1,4 +1,4 @@
-export const HOST = process.env.SERVER_URL;
+export const HOST = process.env.NEXT_PUBLIC_SERVER_URL;
 export const API_URL = `${HOST}/api`;
 export const IMAGES_URL = `${HOST}/uploads`;
 
