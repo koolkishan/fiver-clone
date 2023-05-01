@@ -5,12 +5,12 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "https://fiver-clone-server-r4nu9.kinsta.app",
+        hostname: "https://fiver-clone-node-sbhvt.kinsta.app/",
       },
     ],
   },
   env: {
-    SERVER_URL: "https://fiver-clone-server-r4nu9.kinsta.app",
+    SERVER_URL: "https://fiver-clone-node-sbhvt.kinsta.app/",
   },
 };
 
