@@ -281,7 +281,9 @@ function Navbar() {
                 ) : (
                   <div className="bg-purple-500 h-10 w-10 flex items-center justify-center rounded-full relative">
                     <span className="text-xl text-white">
-                      {userInfo.email[0].toUpperCase()}
+                      {userInfo &&
+                        userInfo?.email &&
+                        userInfo?.email.split("")[0].toUpperCase()}
                     </span>
                   </div>
                 )}
