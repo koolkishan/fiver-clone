@@ -11,9 +11,6 @@ const nextConfig = {
       },
     ],
   },
-  env: {
-    SERVER_URL: "https://fiver-clone-node-sbhvt.kinsta.app",
-  },
 };
 
 module.exports = nextConfig;
