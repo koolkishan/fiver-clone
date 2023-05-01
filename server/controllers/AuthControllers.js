@@ -32,7 +32,7 @@ export const signup = async (req, res, next) => {
           httpOnly: false,
           maxAge: maxAge * 1000,
           sameSite: "none",
-          secure: false,
+          secure: true,
         })
         .status(201)
         .json({ user: { id: user?.id, email: user?.email } });
@@ -76,7 +76,7 @@ export const login = async (req, res, next) => {
           httpOnly: false,
           maxAge: maxAge * 1000,
           sameSite: "none",
-          secure: false,
+          secure: true,
         })
         .status(200)
         .json({ user: { id: user?.id, email: user?.email } });
