@@ -33,7 +33,6 @@ export const signup = async (req, res, next) => {
           maxAge: maxAge * 1000,
           sameSite: "none",
           secure: true,
-          domain: process.env.ORIGIN,
         })
         .status(201)
         .json({ user: { id: user?.id, email: user?.email } });
@@ -54,6 +53,8 @@ export const signup = async (req, res, next) => {
 };
 
 export const login = async (req, res, next) => {
+  console.log("cookies");
+  console.log(req.cookies);
   try {
     const prisma = new PrismaClient();
     const { email, password } = req.body;
