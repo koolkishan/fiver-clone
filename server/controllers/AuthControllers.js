@@ -27,15 +27,10 @@ export const signup = async (req, res, next) => {
           password: await generatePassword(password),
         },
       });
-      return res
-        .cookie("jwt", createToken(email, user.id), {
-          httpOnly: false,
-          maxAge: maxAge * 1000,
-          sameSite: "none",
-          secure: true,
-        })
-        .status(201)
-        .json({ user: { id: user?.id, email: user?.email } });
+      return res.status(201).json({
+        user: { id: user?.id, email: user?.email },
+        jwt: createToken(email, user.id),
+      });
     } else {
       return res.status(400).send("Email and Password Required");
     }
@@ -53,8 +48,6 @@ export const signup = async (req, res, next) => {
 };
 
 export const login = async (req, res, next) => {
-  console.log("cookies");
-  console.log(req.cookies);
   try {
     const prisma = new PrismaClient();
     const { email, password } = req.body;
@@ -73,15 +66,10 @@ export const login = async (req, res, next) => {
         return res.status(400).send("Invalid Password");
       }
 
-      return res
-        .cookie("jwt", createToken(email, user.id), {
-          httpOnly: false,
-          maxAge: maxAge * 1000,
-          sameSite: "none",
-          secure: true,
-        })
-        .status(200)
-        .json({ user: { id: user?.id, email: user?.email } });
+      return res.status(200).json({
+        user: { id: user?.id, email: user?.email },
+        jwt: createToken(email, user.id),
+      });
     } else {
       return res.status(400).send("Email and Password Required");
     }

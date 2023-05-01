@@ -9,7 +9,7 @@ import { useStateProvider } from "../context/StateContext";
 import { reducerCases } from "../context/constants";
 
 function AuthWrapper({ type }) {
-  const [cookies] = useCookies();
+  const [cookies, setCookies] = useCookies();
   const [{ showLoginModal, showSignupModal }, dispatch] = useStateProvider();
   const router = useRouter();
 
@@ -31,12 +31,13 @@ function AuthWrapper({ type }) {
       const { email, password } = values;
       if (email && password) {
         const {
-          data: { user },
+          data: { user, jwt },
         } = await axios.post(
           type === "login" ? LOGIN_ROUTE : SIGNUP_ROUTE,
           { email, password },
           { withCredentials: true }
         );
+        setCookies("jwt", { jwt: jwt });
         dispatch({ type: reducerCases.CLOSE_AUTH_MODAL });
 
         if (user) {
