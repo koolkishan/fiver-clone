@@ -31,6 +31,7 @@ export const signup = async (req, res, next) => {
         .cookie("jwt", createToken(email, user.id), {
           httpOnly: false,
           maxAge: maxAge * 1000,
+          sameSite: "none",
         })
         .status(201)
         .json({ user: { id: user?.id, email: user?.email } });
@@ -73,6 +74,7 @@ export const login = async (req, res, next) => {
         .cookie("jwt", createToken(email, user.id), {
           httpOnly: false,
           maxAge: maxAge * 1000,
+          sameSite: "none",
         })
         .status(200)
         .json({ user: { id: user?.id, email: user?.email } });
